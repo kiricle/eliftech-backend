@@ -7,11 +7,6 @@ export class ShopController {
 
   @Get()
   async getShops() {
-    return [
-      {
-        name: 'Drug 24',
-        url: 'drug-24',
-      },
-    ];
+    return this.shopService.getShops();
   }
 }
