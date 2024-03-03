@@ -1,5 +1,5 @@
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.service';
-import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ShopService {
@@ -12,10 +12,20 @@ export class ShopService {
   }
 
   async getShopProducts(shop: string) {
+    const shopFound = await this.prisma.shop.findFirst({
+      where: {
+        href: shop,
+      },
+    });
+
+    if (!shopFound) {
+      throw new HttpException('Shop not found', HttpStatus.NOT_FOUND);
+    }
+
     const products = await this.prisma.product.findMany({
       where: {
         shop: {
-          href: shop,
+          id: shopFound.id,
         },
       },
     });

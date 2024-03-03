@@ -38,6 +38,7 @@ model Product {
   name     String
   price    Float
   quantity Int
+  src      String
 
   shop   Shop @relation(fields: [shopId], references: [id])
   shopId Int
